@@ -4,60 +4,86 @@ Ext.regController('Bills', {
     Index: function(options){
         var billList,
             that = this;
+
+
         if (!this.billsView) {
-            this.billsView = this.render({
+    		this.billsView = this.render({
                 xtype: 'BillsView'
             });
             var billsController = this;
-            billList = this.billsView.query('#MemberBillList')[0];         
+            billList = this.billsView.query('#BillList')[0];
             billList.addListener('itemtap', function(that, index, item, e){
                 var record = that.store.getAt(index);
                 billsController._gotoBill(record);
             });
         }
         that.billsView.showLoading(true);
-        getAPIData({
-            apiKey:'member',
-            urlOptions : options.id,
-            success: function (data){
-                var member = data;
 
-                // don't track if the panal was reached by pressing 'back'
-                if (options.pushed){
-                    GATrackPage('BillsView', member.name);
-                }
+        // If the ID is zero, undefined or negative, it means that
+        // we want to see all bills, not just the ones that belong to a specific member
+        if (!options.id || options.id <= 0) {
 
-                getAPIData({
-                    apiKey : 'memberBills',
-                    parameterOptions : options.id,
-                    success: function (billsData){
-                        OKnesset.MemberBillsStore.loadData(billsData.bills);
-                        // if there are no bills for the current member, display a text explaining
-                        // that.
-                        if (that.hasExcuseForNoBills(member)) {
-                            that.billsView.query('#MemberBillList')[0].emptyText = "<br/><br/><br/>" +
-                                OKnesset.strings.excuseForNoBills;
-                        } else {
-                            that.billsView.query('#MemberBillList')[0].emptyText = "<br/><br/><br/>" +
-                                OKnesset.strings.hasNoBillsTitle;
-                        }
-                        that.billsView.query('#MemberBillList')[0].refresh();
+        	getAPIData({
+        		apiKey:'bills',
+        		success : function (billsData) {
 
-                        that.billsView.billListTitle.update({
-                            relevant : billsData.bills.length,
-                            total : billsData.total
-                        });
-                        that.billsView.showLoading(false);
-                    },
-                    failure: function (result){
-                        OKnesset.onError('SERVER', ["Error receiving memeber bills data.", result]);
-                    }
-                });
-            },
-            failure: function (result){
-                OKnesset.onError('SERVER', ["Error receiving memeber data.", result]);
-            }
-        });
+        			that.billsView.billListTitle.update({
+                        relevant : billsData.bills.length,
+                        total : billsData.total
+                    });
+
+                    OKnesset.BillsStore.loadData(billsData.bills);
+
+                    that.billsView.showLoading(false);
+        		}
+        	});
+        }
+
+        else {
+
+	        getAPIData({
+	            apiKey:'member',
+	            urlOptions : options.id,
+	            success: function (data){
+	                var member = data;
+
+	                // don't track if the panel was reached by pressing 'back'
+	                if (options.pushed){
+	                    GATrackPage('BillsView', member.name);
+	                }
+
+	                getAPIData({
+	                    apiKey : 'memberBills',
+	                    parameterOptions : options.id,
+	                    success: function (billsData){
+	                        OKnesset.BillsStore.loadData(billsData.bills);
+	                        // if there are no bills for the current member, display a text explaining
+	                        // that.
+	                        if (that.hasExcuseForNoBills(member)) {
+	                            that.billsView.query('#BillList')[0].emptyText = "<br/><br/><br/>" +
+	                                OKnesset.strings.excuseForNoBills;
+	                        } else {
+	                            that.billsView.query('#BillList')[0].emptyText = "<br/><br/><br/>" +
+	                                OKnesset.strings.hasNoBillsTitle;
+	                        }
+	                        that.billsView.query('#BillList')[0].refresh();
+	
+	                        that.billsView.billListTitle.update({
+	                            relevant : billsData.bills.length,
+	                            total : billsData.total
+	                        });
+	                        that.billsView.showLoading(false);
+	                    },
+	                    failure: function (result){
+	                        OKnesset.onError('SERVER', ["Error receiving memeber bills data.", result]);
+	                    }
+	                });
+	            },
+	            failure: function (result){
+	                OKnesset.onError('SERVER', ["Error receiving memeber data.", result]);
+	            }
+	        });
+        }
 
         // scroll bill list up
         if (options.pushed) {
@@ -73,6 +99,8 @@ Ext.regController('Bills', {
 
         this.application.viewport.setActiveItem(this.billsView, options.animation);
     },
+
+
     /**
      * Returns true if the member is a minister, or is the chairperson of the
      * Knesset.

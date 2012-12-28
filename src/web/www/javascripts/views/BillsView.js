@@ -9,7 +9,9 @@ OKnesset.app.views.BillsView = new Ext.extend(OKnesset.Panel, {
     },
     currentMemeber: null,
     initComponent: function(){
+    	
         this.billList = new OKnesset.app.views.BillsView.BillList();
+        
         this.billListTitle = new Ext.Panel({
                 id: "billListTitle",
                 cls: 'titlePanel',
@@ -27,21 +29,17 @@ OKnesset.app.views.BillsView = new Ext.extend(OKnesset.Panel, {
     }
 });
 
+
+
 Ext.reg('BillsView', OKnesset.app.views.BillsView);
 
 OKnesset.app.views.BillsView.BillList = new Ext.extend(Ext.List, {
-    id: 'MemberBillList',
+    id: 'BillList',
     itemTpl: '<div>{full_title}</div>',
-    store: OKnesset.MemberBillsStore,
+    store: OKnesset.BillsStore,
     layout: 'fit',
     deferEmptyText: false,
     grouped: true,
     flex: 1.5,
     onItemDisclosure: true
 });
-
-
-
-
-
-

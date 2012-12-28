@@ -84,12 +84,12 @@ OKnesset.MemberStore = new Ext.data.Store({
 
 });
 
-Ext.regModel('MemberBills', {
+Ext.regModel('Bills', {
 	fields: ['title']
 });
 
-OKnesset.MemberBillsStore = new Ext.data.Store({
-	model: 'MemberBills',
+OKnesset.BillsStore = new Ext.data.Store({
+	model: 'Bills',
 	sorters: {
 		sorterFn : function(b1, b2) { 
 			// sort by stage (i1, i2), then by date

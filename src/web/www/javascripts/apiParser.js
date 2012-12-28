@@ -2,7 +2,6 @@ window.OKnessetParser = {
 	helpers : {},
 	parsers : {}
 };
-
 /**
 *
 * @param date - format "yyyy-mm-dd"
@@ -153,6 +152,33 @@ window.OKnessetParser.parsers.memberBills = function (result, success, failure){
 };
 
 /*******************************************************************************
+ * bills parser
+ */
+window.OKnessetParser.parsers.bills = function (result, success, failure){
+	var legitBills = [];
+	for (var i = 0; i < result.objects.length ; i++) {
+		var item = result.objects[i];
+		
+		if (
+			item.stage == OKnesset.strings.billStage6 ||
+			item.stage == OKnesset.strings.billStage5 ||
+			item.stage == OKnesset.strings.billStage4 ||
+			item.stage == OKnesset.strings.billStage3 ||
+			item.stage == OKnesset.strings.billStage2 ||
+			item.stage == OKnesset.strings.billStage1){
+
+			legitBills.push(item);
+		}
+	};
+
+	success({
+		bills:legitBills, 
+		total:result.objects.length
+	});
+};
+
+
+/*******************************************************************************
  * protocol meeting parser
  */
 window.OKnessetParser.parsers.committeeProtocol = function (result, success, failure){
@@ -269,6 +295,22 @@ window.OKnessetAPIMapping = {
 				id : "string"
 			}]
 		}		
+	},
+	
+	bills : {
+		url : function(){
+			return 'http://www.oknesset.org/api/v2/bill/'
+		},
+		callbackKey : "callback",
+		parser: OKnessetParser.parsers.bills,
+		expectedObject: {
+			objects:[{
+				stage : "string",
+				stage_date : "string",
+				title : "string",
+				id : "string"
+			}]
+		}
 	},
 
 	bill : {

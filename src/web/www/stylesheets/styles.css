@@ -125,17 +125,17 @@
 	vertical-align: top;
 }
 
-#MemberBillList .x-list-header {
+#BillList .x-list-header {
 	direction: rtl;
 }
 
-#MemberBillList {
+#BillList {
 	background-color: lightgrey;
 }
 
 /* Center empty bill list emptyText*/
 /* Centers group tittle for bill and party list*/
-#MemberBillList .x-list-parent,
+#BillList .x-list-parent,
 #PartyListView .x-list-parent,
 .x-list-header {
 	text-align: center;
