@@ -35,11 +35,11 @@ Ext.reg('BillsView', OKnesset.app.views.BillsView);
 
 OKnesset.app.views.BillsView.BillList = new Ext.extend(Ext.List, {
     id: 'BillList',
-    itemTpl: '<div>{full_title}</div>',
+    itemTpl: '<div style="text-align:right">{full_title}<span class="btn-mini-text">הוגשה ב:{stage_date}, {stage}</span></div>',
     store: OKnesset.BillsStore,
     layout: 'fit',
     deferEmptyText: false,
-    grouped: true,
+    grouped: false,
     flex: 1.5,
     onItemDisclosure: true
 });

@@ -4,8 +4,7 @@ Ext.regController('Bills', {
     Index: function(options){
         var billList,
             that = this;
-
-
+        
         if (!this.billsView) {
     		this.billsView = this.render({
                 xtype: 'BillsView'
@@ -19,75 +18,27 @@ Ext.regController('Bills', {
         }
         that.billsView.showLoading(true);
 
-        // If the ID is zero, undefined or negative, it means that
-        // we want to see all bills, not just the ones that belong to a specific member
-        if (!options.id || options.id <= 0) {
 
-        	getAPIData({
-        		apiKey:'bills',
-        		success : function (billsData) {
+    	getAPIData({
+    		apiKey:'bills',
+    		success : function (billsData) {
+    			
+    			that.billsView.billListTitle.update({
+                    relevant : billsData.bills.length,
+                    total : billsData.total
+                });
 
-        			that.billsView.billListTitle.update({
-                        relevant : billsData.bills.length,
-                        total : billsData.total
-                    });
+                OKnesset.BillsStore.loadData(billsData.bills);
+                OKnesset.BillsStore.sort(OKnesset.BillsStoreSorters.byDate);
 
-                    OKnesset.BillsStore.loadData(billsData.bills);
+                that.billsView.showLoading(false);
+    		}
+    	});
 
-                    that.billsView.showLoading(false);
-        		}
-        	});
-        }
-
-        else {
-
-	        getAPIData({
-	            apiKey:'member',
-	            urlOptions : options.id,
-	            success: function (data){
-	                var member = data;
-
-	                // don't track if the panel was reached by pressing 'back'
-	                if (options.pushed){
-	                    GATrackPage('BillsView', member.name);
-	                }
-
-	                getAPIData({
-	                    apiKey : 'memberBills',
-	                    parameterOptions : options.id,
-	                    success: function (billsData){
-	                        OKnesset.BillsStore.loadData(billsData.bills);
-	                        // if there are no bills for the current member, display a text explaining
-	                        // that.
-	                        if (that.hasExcuseForNoBills(member)) {
-	                            that.billsView.query('#BillList')[0].emptyText = "<br/><br/><br/>" +
-	                                OKnesset.strings.excuseForNoBills;
-	                        } else {
-	                            that.billsView.query('#BillList')[0].emptyText = "<br/><br/><br/>" +
-	                                OKnesset.strings.hasNoBillsTitle;
-	                        }
-	                        that.billsView.query('#BillList')[0].refresh();
-	
-	                        that.billsView.billListTitle.update({
-	                            relevant : billsData.bills.length,
-	                            total : billsData.total
-	                        });
-	                        that.billsView.showLoading(false);
-	                    },
-	                    failure: function (result){
-	                        OKnesset.onError('SERVER', ["Error receiving memeber bills data.", result]);
-	                    }
-	                });
-	            },
-	            failure: function (result){
-	                OKnesset.onError('SERVER', ["Error receiving memeber data.", result]);
-	            }
-	        });
-        }
-
+      
         // scroll bill list up
         if (options.pushed) {
-            billList = this.billsView.query('#MemberBillList')[0];
+            billList = this.billsView.query('#BillList')[0];
             if (billList.scroller) {
                 billList.scroller.scrollTo({
                     x: 0,

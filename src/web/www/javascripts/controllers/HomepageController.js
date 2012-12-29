@@ -15,8 +15,8 @@ OKnesset.app.controllers.Homepage = Ext.regController('Homepage', {
             this.homepage.items.get(2).items.getByKey('homepageCommitteesBtn').setHandler(function(){
                 OKnesset.app.controllers.navigation.dispatchPanel('AllCommittees/Index');
             });
-            this.homepage.items.get(2).items.getByKey('homepageMembersBtn').setHandler(function(){
-                OKnesset.app.controllers.navigation.dispatchPanel('MemberList/Index');
+            this.homepage.items.get(2).items.getByKey('homepageBillsBtn').setHandler(function(){
+                OKnesset.app.controllers.navigation.dispatchPanel('Bills/Index');
             });
         }
         this.application.viewport.query('#toolbar')[0].setTitle(OKnesset.strings.openKnessetTitle);

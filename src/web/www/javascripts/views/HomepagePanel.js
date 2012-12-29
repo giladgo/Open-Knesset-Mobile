@@ -21,7 +21,7 @@ var homepageCommitteesBtnHtml = " \
 <span style='font-size:0.8em'>"+ OKnesset.strings.HomepageCommitteesBtnTxt +"</span></span> \
 ";
 
-var homepageMemberBtnHtml = " \
-<span><b>" + OKnesset.strings.membersTitle +"</b><br/><br/>\
-<span style='font-size:0.8em'>"+ OKnesset.strings.HomepageMembersBtnTxt +"</span></span> \
+var homepageBillsBtnHtml = " \
+<span><b>" + OKnesset.strings.bills +"</b><br/><br/>\
+<span style='font-size:0.8em'>"+ OKnesset.strings.HomepageBillsBtnTxt +"</span></span> \
 ";

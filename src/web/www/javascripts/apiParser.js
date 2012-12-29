@@ -155,28 +155,23 @@ window.OKnessetParser.parsers.memberBills = function (result, success, failure){
  * bills parser
  */
 window.OKnessetParser.parsers.bills = function (result, success, failure){
-	var legitBills = [];
+	var allBills = [];
 	for (var i = 0; i < result.objects.length ; i++) {
 		var item = result.objects[i];
-		
-		if (
-			item.stage == OKnesset.strings.billStage6 ||
-			item.stage == OKnesset.strings.billStage5 ||
-			item.stage == OKnesset.strings.billStage4 ||
-			item.stage == OKnesset.strings.billStage3 ||
-			item.stage == OKnesset.strings.billStage2 ||
-			item.stage == OKnesset.strings.billStage1){
-
-			legitBills.push(item);
-		}
+		allBills.push({
+			id         : item.id,
+			stage 	   : item.stage,
+			stage_date : window.OKnessetParser.helpers.formatDate(item.stage_date),
+			full_title : item.full_title,
+			title      : item.title
+		});
 	};
 
 	success({
-		bills:legitBills, 
+		bills:allBills, 
 		total:result.objects.length
 	});
 };
-
 
 /*******************************************************************************
  * protocol meeting parser

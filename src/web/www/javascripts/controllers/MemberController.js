@@ -57,7 +57,7 @@ OKnesset.app.controllers.Member = Ext.regController('Member', {
 	},
 
 	dispatchBills: function() {
-		OKnesset.app.controllers.navigation.dispatchPanel('Bills/Index/' + this.id, this.historyUrl);
+		OKnesset.app.controllers.navigation.dispatchPanel('MemberBills/Index/' + this.id, this.historyUrl);
 	},
 
 	dispatchCommittees: function() {

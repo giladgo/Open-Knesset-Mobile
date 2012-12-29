@@ -26,8 +26,9 @@ OKnesset.strings = {
 	errorAndroidEmail        : 'כשלון בשליחת מייל',
 	writeTo                  : 'כתבו ל{0}',
 	phoneTo                  : ' התקשרו אל {0}',
-	bills  		             : 'הצעות חוק',
-	billsOutOf				 : 'מוצגות {0} הצעות חוק שעברו קריאה טרומית (לפחות), מתוך {1} שהוגשו',
+	bills  		             : 'הצעות חוק אחרונות',
+	billsOutOf				 : 'מוצגות {0} הצעות חוק, מתוך {1} שהוגשו',
+	memberBillsOutOf		 : 'מוצגות {0} הצעות חוק שעברו קריאה טרומית (לפחות), מתוך {1} שהוגשו',
 	committees               : 'ועדות'    ,
 	loadingBills             : 'טוען הצעות חוק. המתן...',
 	noBills                  : 'אין הצעות חוק' ,
@@ -103,7 +104,7 @@ OKnesset.strings = {
 	HomepageAgendaBtnText    : "עמדת חברי הכנסת בנושאים שונים לפי הצבעותיהם במליאה",
 	HomepagePartiesBtnText   : "כל המפלגות והמידע אודותיהן, לפי שיוך קואליציוני",
 	HomepageCommitteesBtnTxt : "ועדות הכנסת והחברים בהן, פרוטוקולים של ישיבות ופעילותם",
-	HomepageMembersBtnTxt    : "רשימת כל חברי הכנסת לפי הא\x22ב",
+	HomepageBillsBtnTxt      : "20 הצעות החוק האחרונות שעלו בכנסת",
 	generalError             : "חלה תקלה אנא בדוק את החיבור לאינטרנט ונסה שוב",
 
 	infoDialog: {
